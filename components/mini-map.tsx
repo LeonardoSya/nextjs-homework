@@ -40,30 +40,30 @@ const MiniMap = ({ viewState, className = "" }: MiniMapProps) => {
     });
 
     // 等待地图样式加载完成后再添加图层
-    miniMapRef.current.on('load', () => {
+    miniMapRef.current.on("load", () => {
       // 添加视野范围数据源
-      miniMapRef.current?.addSource('viewport-bounds', {
-        type: 'geojson',
+      miniMapRef.current?.addSource("viewport-bounds", {
+        type: "geojson",
         data: {
-          type: 'Feature',
+          type: "Feature",
           properties: {},
           geometry: {
-            type: 'LineString',
-            coordinates: []
-          }
-        }
+            type: "LineString",
+            coordinates: [],
+          },
+        },
       });
 
       // 添加视野范围图层
       miniMapRef.current?.addLayer({
-        id: 'viewport-bounds',
-        type: 'line',
-        source: 'viewport-bounds',
+        id: "viewport-bounds",
+        type: "line",
+        source: "viewport-bounds",
         paint: {
-          'line-color': '#fff',
-          'line-width': 2,
-          'line-opacity': 0.8
-        }
+          "line-color": "#fff",
+          "line-width": 2,
+          "line-opacity": 0.8,
+        },
       });
     });
 
@@ -106,15 +106,15 @@ const MiniMap = ({ viewState, className = "" }: MiniMapProps) => {
       ];
 
       // 更新视野范围数据
-      const source = miniMapRef.current.getSource('viewport-bounds');
+      const source = miniMapRef.current.getSource("viewport-bounds");
       if (source) {
         (source as mapboxgl.GeoJSONSource).setData({
-          type: 'Feature',
+          type: "Feature",
           properties: {},
           geometry: {
-            type: 'LineString',
-            coordinates: coordinates
-          }
+            type: "LineString",
+            coordinates: coordinates,
+          },
         });
       }
     }
@@ -124,9 +124,8 @@ const MiniMap = ({ viewState, className = "" }: MiniMapProps) => {
     <div
       ref={containerRef}
       className={`${className} relative`}
-      style={{ zIndex: 1 }}
-    >
-    </div>
+      style={{ zIndex: 10, position: "absolute", pointerEvents: "none" }}
+    ></div>
   );
 };
 
