@@ -158,7 +158,10 @@ const LocationAggregatorMap = ({
             </ul>
           </div>
         </div>
-        <MiniMap viewState={viewState} />
+        <MiniMap
+          viewState={viewState}
+          className="absolute top-[63vh] left-5 w-[200px] h-[200px] rounded-lg overflow-hidden border-2 border-slate-700"
+        />
       </DeckGL>
     </div>
   );
