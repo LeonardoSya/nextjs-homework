@@ -3,8 +3,8 @@ import "./globals.css";
 
 const navigation = [
   { name: "作业3", href: "/" },
-  { name: "作业4：消防车扑火", href: "/fire-truck" },
-  { name: "作业5：下周再说", href: "/" },
+  { name: "作业4消防车扑火", href: "/fire-truck" },
+  { name: "作业5下周再说", href: "/" },
 ];
 
 export default function RootLayout({ children }) {
@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-slate-950">
         <div className="w-full px-4 pt-3">
           <nav>
-            <div className="flex gap-4 rounded-xl bg-slate-900/20">
+            <div className="flex gap-0 md:gap-4 rounded-xl bg-slate-900/20">
               {navigation.map(({ name, href }) => (
                 <Link
                   key={name}

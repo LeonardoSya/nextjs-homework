@@ -205,12 +205,12 @@ export default function FireTruck() {
         </div>
         <MiniMap
           viewState={viewState}
-          className="absolute top-5 left-5 w-[200px] h-[200px] rounded-lg overflow-hidden border-2 border-slate-700"
+          className="absolute top-5 left-5 w-36 h-36 md:w-96 md:h-96 rounded-lg overflow-hidden border-2 border-slate-700"
         />
-        <div className="z-10 fixed top-96 left-5 bg-black/70 text-white p-4 rounded-md">
+        <div className="z-10 fixed bottom-24 left-4 bg-black/70 text-white p-4 rounded-md">
           <button
             onClick={() => setIsAddingFire(!isAddingFire)}
-            className={`w-full px-4 py-2 rounded-md transition-colors ${
+            className={`w-full px-2 py-2 rounded-md transition-colors ${
               isAddingFire
                 ? "bg-red-600 hover:bg-red-700"
                 : "bg-slate-600 hover:bg-slate-700"
@@ -221,7 +221,7 @@ export default function FireTruck() {
           <button
             onClick={handleNavigate}
             disabled={!firePosition || isNavigating}
-            className={`mt-4 w-full px-4 py-2 rounded-md transition-colors ${
+            className={`mt-4 w-full px-2 py-2 rounded-md transition-colors ${
               !firePosition || isNavigating
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
