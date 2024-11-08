@@ -6,6 +6,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import fireTruck from "../../public/fire-truck.svg";
 import firePoint from "../../public/fire-point.svg";
 import MiniMap from "@/components/mini-map";
+import MapElements from '@/components/map-elements';
+import html2canvas from 'html2canvas';
 
 export default function FireTruck() {
   const mapContainer = useRef(null);
@@ -195,10 +197,75 @@ export default function FireTruck() {
     };
   }, []);
 
+  const handleExportMap = async () => {
+    if (!map.current) return;
+    
+    try {
+      // 等待地图渲染完成
+      await map.current.once('idle');
+
+      // 获取地图图像
+      const mapImage = map.current.getCanvas().toDataURL();
+
+      // 创建临时 canvas
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // 设置 canvas 尺寸
+      canvas.width = map.current.getCanvas().width;
+      canvas.height = map.current.getCanvas().height;
+
+      // 创建图片对象
+      const img = new Image();
+      img.onload = async () => {
+        // 绘制地图
+        ctx.drawImage(img, 0, 0);
+
+        // 获取 UI 元素
+        const mapElements = document.querySelector('.map-elements');
+        if (mapElements) {
+          const elementsCanvas = await html2canvas(mapElements as HTMLElement, {
+            backgroundColor: null,
+            scale: 2
+          });
+          ctx.drawImage(elementsCanvas, 0, 0);
+        }
+
+        // 导出最终图片
+        const finalImage = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = '消防车路线图.png';
+        link.href = finalImage;
+        link.click();
+      };
+
+      img.src = mapImage;
+    } catch (error) {
+      console.error('导出地图失败:', error);
+    }
+  };
+
+  const calculateScale = (zoom: number): number => {
+    const metersPerPixel = (40075016.686 * Math.cos(viewState.latitude * Math.PI/180)) / Math.pow(2, zoom + 8);
+    const scaleDistance = metersPerPixel * 200;
+    const scaleInKm = Math.round(scaleDistance / 1000);
+    
+    const niceScale = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+    return niceScale.reduce((prev, curr) => 
+      Math.abs(curr - scaleInKm) < Math.abs(prev - scaleInKm) ? curr : prev
+    );
+  };
+
   return (
     <>
-      <div className="relative w-screen h-screen">
+      <div className="relative w-screen h-screen map-container">
         <div ref={mapContainer} className="absolute w-full h-[100vh]" />
+        <MapElements 
+          title="消防车路线规划图"
+          scale={calculateScale(viewState.zoom)}
+          onExport={handleExportMap}
+        />
         <div className="fixed bottom-4 left-4 bg-black/50 text-white p-2 rounded-md">
           <p>经度：{coordinates.lng}</p>
           <p>纬度：{coordinates.lat}</p>
