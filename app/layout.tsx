@@ -2,9 +2,9 @@ import Link from "next/link";
 import "./globals.css";
 
 const navigation = [
-  { name: "作业3", href: "/" },
-  { name: "作业4消防车扑火", href: "/fire-truck" },
-  { name: "作业5下周再说", href: "/" },
+  { name: "蜂窝柱状图", href: "/" },
+  { name: "消防车扑火", href: "/fire-truck" },
+  { name: "属性查询分析", href: "/attribute-query" },
 ];
 
 export default function RootLayout({ children }) {
