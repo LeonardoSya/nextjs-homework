@@ -5,6 +5,7 @@ const navigation = [
   { name: "蜂窝柱状图", href: "/" },
   { name: "消防车扑火", href: "/fire-truck" },
   { name: "属性查询分析", href: "/attribute-query" },
+  { name: "栅格数据处理", href: "/grid" },
 ];
 
 export default function RootLayout({ children }) {
